@@ -2,19 +2,15 @@
 """
 @author: tommy huang
 """
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-from sklearn.linear_model import LogisticRegression, LinearRegression
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
 import numpy as np
 import matplotlib.pyplot as plt
 
 np.random.seed(202201)
-x = np.load('./iris_x.npy')
-y = np.load('./iris_y.npy')
+x = np.load('iris_x.npy')
+y = np.load('iris_y.npy')
 
-# 將資料分成訓練集和測試集
-# class 0
+###  將資料分成訓練集和測試集
+## class 0
 pos_lis_0 = np.array(range(0, 50))
 print(pos_lis_0)
 np.random.shuffle(pos_lis_0)
@@ -25,24 +21,23 @@ pos_lis_2 = np.array(range(100, 150))
 np.random.shuffle(pos_lis_1)
 np.random.shuffle(pos_lis_2)
 
-x0 = x[pos_lis_0[0:40], :]
-x1 = x[pos_lis_1[0:40], :]
-x2 = x[pos_lis_2[0:40], :]
+x0 = x[pos_lis_0[0:40],:]
+x1 = x[pos_lis_1[0:40],:]
+x2 = x[pos_lis_2[0:40],:]
 y0 = y[pos_lis_0[0:40]]
 y1 = y[pos_lis_1[0:40]]
 y2 = y[pos_lis_2[0:40]]
-x_train = np.concatenate((x0, x1, x2))
-y_train = np.concatenate((y0, y1, y2))
+x_train = np.concatenate((x0,x1,x2))
+y_train = np.concatenate((y0,y1,y2))
 
-x0 = x[pos_lis_0[40:50], :]
-x1 = x[pos_lis_1[40:50], :]
-x2 = x[pos_lis_2[40:50], :]
+x0 = x[pos_lis_0[40:50],:]
+x1 = x[pos_lis_1[40:50],:]
+x2 = x[pos_lis_2[40:50],:]
 y0 = y[pos_lis_0[40:50]]
 y1 = y[pos_lis_1[40:50]]
 y2 = y[pos_lis_2[40:50]]
-x_test = np.concatenate((x0, x1, x2))
-y_test = np.concatenate((y0, y1, y2))
-print(y_test)
+x_test = np.concatenate((x0,x1,x2))
+y_test = np.concatenate((y0,y1,y2))
 
 # # sklearn module
 # from sklearn.model_selection import train_test_split
@@ -55,6 +50,8 @@ print(y_test)
 
 # print(x_train.shape)
 # from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+# from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.metrics import confusion_matrix
 # # Quadratic Discriminant Analysis
 # lda = LinearDiscriminantAnalysis(store_covariance=True)
 # lda = lda.fit(x_train, y_train)
@@ -65,14 +62,17 @@ print(y_test)
 # print('confusion_matrix (LDA,acc):{}'.format(acc))
 #
 # # Quadratic Discriminant Analysis
-qda = QuadraticDiscriminantAnalysis(store_covariance=True)
-qda = qda.fit(x_train, y_train)
-y_pred = qda.predict(x_test)
-cm = confusion_matrix(y_test, y_pred)
-acc = np.diag(cm).sum()/cm.sum()
-print('confusion_matrix (QDA):\n{}'.format(cm))
-print('confusion_matrix (QDA,acc):{}'.format(acc))
+# qda = QuadraticDiscriminantAnalysis(store_covariance=True)
+# qda = qda.fit(x_train, y_train)
+# y_pred = qda.predict(x_test)
+# cm = confusion_matrix(y_test, y_pred)
+# acc = np.diag(cm).sum()/cm.sum()
+# print('confusion_matrix (QDA):\n{}'.format(cm))
+# print('confusion_matrix (QDA,acc):{}'.format(acc))
 
+from sklearn.linear_model import LogisticRegression
+import numpy as np
+from sklearn.linear_model import LogisticRegression, LinearRegression
 # Fit the classifier
 # clf = LogisticRegression()
 # clf.fit(x_train, y_train)
@@ -103,53 +103,9 @@ mse = np.mean((y_pred-y_test)**2)
 print(y_pred)
 plt.figure()
 for i in range(3):
-    pos = np.where(y_test == i)[0]
-    print("pos:")
-    print(pos)
-    plt.plot(y_pred[pos], y_test[pos], '*')
-plt.plot([0.5, 0.5], [0, 2], 'k:')
-plt.plot([1.5, 1.5], [0, 2], 'k:')
+    pos = np.where(y_test==i)[0]
+    plt.plot(y_pred[pos],y_test[pos],'*')
+plt.plot([0.5,0.5],[0, 2],'k:')
+plt.plot([1.5,1.5],[0, 2],'k:')
 plt.title('MSE:{:.6f}'.format(mse))
 plt.show()
-
-
-class Gaussian_classifier():
-    def ___init__(self):
-        self.mu = np.array([])
-        self.cov = np.array([])
-
-    def fit(self, data_train, label_train):
-        mu, cov = [], []
-        for i in range(np.max(label_train)+1):
-            pos = np.where(label_train == i)[0]
-            print(type(label_train), type(i))
-            print(label_train, i)
-            tmp_data = data_train[pos, :]
-            tmp_cov = np.cov(np.transpose(tmp_data))
-            tmp_mu = np.mean(tmp_data, axis=0)
-            mu.append(tmp_mu)
-            cov.append(tmp_cov)
-        self.mu = np.array(mu)
-        self.cov = np.array(cov)
-
-    def predict(self, x_test):
-        d_value = []
-        for tmp_mu, tmp_cov in zip(self.mu, self.cov):
-            d = len(tmp_mu)
-            zero_center_data = x_test - tmp_mu
-            tmp = np.dot(zero_center_data.transpose(), np.linalg.inv(tmp_cov))
-            tmp = -0.5*np.dot(tmp, zero_center_data)
-            tmp1 = (2 * np.pi)**(-d/2) * np.linalg.det(tmp_cov)**(-0.5)
-            tmp = tmp1 * np.exp(tmp)
-            d_value.append(tmp)
-        d_value = np.array(d_value)
-        return np.argmax(d_value), d_value
-
-
-xqda = Gaussian_classifier()
-xqda = xqda.fit(x_train, y_train)
-y_pred = xqda.predict(x_test)
-cm = confusion_matrix(y_test, y_pred)
-acc = np.diag(cm).sum()/cm.sum()
-print('xx confusion_matrix (QDA):\n{}'.format(cm))
-print('xx confusion_matrix (QDA,acc):{}'.format(acc))

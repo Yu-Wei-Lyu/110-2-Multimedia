@@ -3,6 +3,21 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import confusion_matrix
 import numpy as np
+import matplotlib.pyplot as plt
+
+def getCM(y_test, y_pred):
+    dataLen = len(set(y_test))
+    cm = np.zeros([dataLen, dataLen],dtype=np.int32)
+    for i in range(len(y_pred)):
+        cm[y_test[i], y_pred[i]] += 1;
+    return cm
+
+def getAcc(cm):
+    allData = sum(sum(cm))
+    correctData = 0
+    for i in range(len(cm)):
+        correctData += cm[i, i]
+    return correctData / allData
 
 
 class Gaussian_classifier():
@@ -73,8 +88,8 @@ y_pred = []
 for i in range(len(x_test)):
     y_single_pred, probability = xqda.predict(x_test[i])
     y_pred.append(y_single_pred)
-cm = confusion_matrix(y_test, y_pred)
-acc = np.diag(cm).sum()/cm.sum()
+cm = getCM(y_test, y_pred)
+acc = getAcc(cm)
 print('Course Learned confusion_matrix (QDA):\n{}'.format(cm))
 print('Course Learned confusion_matrix (QDA,acc):{}'.format(acc))
 
