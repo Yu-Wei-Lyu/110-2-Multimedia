@@ -38,88 +38,88 @@ data_heigh = np.array(data_heigh)
 data_weight = np.array(data_weight)
 r = np.corrcoef(data_heigh, data_weight)
 
-# plt.figure()
-# plt.plot(data_heigh, data_weight,'*')
-# plt.xlabel('Heigth')
-# plt.ylabel('Weight')
-# plt.title('ALL correlation = {:.2f}'.format(r[0][1]))
-# plt.show()
+plt.figure()
+plt.plot(data_heigh, data_weight,'*')
+plt.xlabel('Heigth')
+plt.ylabel('Weight')
+plt.title('ALL correlation = {:.2f}'.format(r[0][1]))
+plt.show()
 
-# # 2. correlation (Male and Female)
-# label=np.array(label)
-# pos_male = np.where(label==1)[0]
-# pos_female = np.where(label==0)[0]
-# plt.figure()
-# plt.subplot(1,2,1)
-# r_male = np.corrcoef(data_heigh[pos_male],data_weight[pos_male])
-# plt.plot(data_heigh[pos_male], data_weight[pos_male],'*')
-# plt.xlabel('Heigth')
-# plt.ylabel('Weight')
-# plt.title('Male \n correlation = {:.2f}'.format(r_male[0][1]))
-# plt.subplot(1,2,2)
-# r_female = np.corrcoef(data_heigh[pos_female],data_weight[pos_female])
-# plt.plot(data_heigh[pos_female], data_weight[pos_female],'*')
-# plt.xlabel('Heigth')
-# plt.ylabel('Weight')
-# plt.title('Female \n correlation = {:.2f}'.format(r_female[0][1]))
-# plt.show()
+# 2. correlation (Male and Female)
+label=np.array(label)
+pos_male = np.where(label==1)[0]
+pos_female = np.where(label==0)[0]
+plt.figure()
+plt.subplot(1,2,1)
+r_male = np.corrcoef(data_heigh[pos_male],data_weight[pos_male])
+plt.plot(data_heigh[pos_male], data_weight[pos_male],'*')
+plt.xlabel('Heigth')
+plt.ylabel('Weight')
+plt.title('Male \n correlation = {:.2f}'.format(r_male[0][1]))
+plt.subplot(1,2,2)
+r_female = np.corrcoef(data_heigh[pos_female],data_weight[pos_female])
+plt.plot(data_heigh[pos_female], data_weight[pos_female],'*')
+plt.xlabel('Heigth')
+plt.ylabel('Weight')
+plt.title('Female \n correlation = {:.2f}'.format(r_female[0][1]))
+plt.show()
 
-# # Linear regression
-# x = data_heigh
-# y = data_weight
-# x_bar=np.mean(x)
-# y_bar=np.mean(y)
-# b1 = np.sum((y-y_bar)*(x-x_bar))/np.sum((x-x_bar)**2)
-# b0 = y_bar-b1*x_bar
+# Linear regression
+x = data_heigh
+y = data_weight
+x_bar=np.mean(x)
+y_bar=np.mean(y)
+b1 = np.sum((y-y_bar)*(x-x_bar))/np.sum((x-x_bar)**2)
+b0 = y_bar-b1*x_bar
 
-# x_star = np.linspace(150,190,100)
-# y_hat = x_star*b1+b0
-# plt.figure()
-# plt.plot(x, y,'*')
-# plt.plot(x_star, y_hat,'r-')
-# plt.xlabel('Heigth')
-# plt.ylabel('Weight')
-# plt.title('ALL correlation = {:.2f}\n $y={:.4f}x+{:.4f}$'.format(r[0][1],b1,b0))
-# plt.show()
+x_star = np.linspace(150,190,100)
+y_hat = x_star*b1+b0
+plt.figure()
+plt.plot(x, y,'*')
+plt.plot(x_star, y_hat,'r-')
+plt.xlabel('Heigth')
+plt.ylabel('Weight')
+plt.title('ALL correlation = {:.2f}\n $y={:.4f}x+{:.4f}$'.format(r[0][1],b1,b0))
+plt.show()
 
-# # Linear regression (female)
-# x = data_heigh[pos_female]
-# y = data_weight[pos_female]
-# x_bar=np.mean(x)
-# y_bar=np.mean(y)
-# b1 = np.sum((y-y_bar)*(x-x_bar))/np.sum((x-x_bar)**2)
-# b0 = y_bar-b1*x_bar
+# Linear regression (female)
+x = data_heigh[pos_female]
+y = data_weight[pos_female]
+x_bar=np.mean(x)
+y_bar=np.mean(y)
+b1 = np.sum((y-y_bar)*(x-x_bar))/np.sum((x-x_bar)**2)
+b0 = y_bar-b1*x_bar
 
-# x_star = np.linspace(150,170,100)
-# y_hat = x_star*b1+b0
-# plt.figure()
-# plt.plot(x, y,'*')
-# plt.plot(x_star, y_hat,'r-')
-# plt.xlabel('Heigth')
-# plt.ylabel('Weight')
-# plt.title('Female correlation = {:.2f}\n $y={:.4f}x+{:.4f}$'.format(r_female[0][1],b1,b0))
+x_star = np.linspace(150,170,100)
+y_hat = x_star*b1+b0
+plt.figure()
+plt.plot(x, y,'*')
+plt.plot(x_star, y_hat,'r-')
+plt.xlabel('Heigth')
+plt.ylabel('Weight')
+plt.title('Female correlation = {:.2f}\n $y={:.4f}x+{:.4f}$'.format(r_female[0][1],b1,b0))
 
-# plt.show()
+plt.show()
 
 
-# # Linear regression (male)
-# x = data_heigh[pos_male]
-# y = data_weight[pos_male]
-# x_bar=np.mean(x)
-# y_bar=np.mean(y)
-# b1 = np.sum((y-y_bar)*(x-x_bar))/np.sum((x-x_bar)**2)
-# b0 = y_bar-b1*x_bar
+# Linear regression (male)
+x = data_heigh[pos_male]
+y = data_weight[pos_male]
+x_bar=np.mean(x)
+y_bar=np.mean(y)
+b1 = np.sum((y-y_bar)*(x-x_bar))/np.sum((x-x_bar)**2)
+b0 = y_bar-b1*x_bar
 
-# x_star = np.linspace(160,190,100)
-# y_hat = x_star*b1+b0
-# plt.figure()
-# plt.plot(x, y,'*')
-# plt.plot(x_star, y_hat,'r-')
-# plt.xlabel('Heigth')
-# plt.ylabel('Weight')
-# plt.title('Male correlation = {:.2f}\n $y={:.4f}x+{:.4f}$'.format(r_male[0][1],b1,b0))
+x_star = np.linspace(160,190,100)
+y_hat = x_star*b1+b0
+plt.figure()
+plt.plot(x, y,'*')
+plt.plot(x_star, y_hat,'r-')
+plt.xlabel('Heigth')
+plt.ylabel('Weight')
+plt.title('Male correlation = {:.2f}\n $y={:.4f}x+{:.4f}$'.format(r_male[0][1],b1,b0))
 
-# plt.show()
+plt.show()
 
 
 from sklearn.linear_model import LinearRegression
